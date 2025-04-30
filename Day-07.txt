@@ -40,7 +40,7 @@ esac
 
 
 output:
-[2021ict37@fedora ~]$ ./astro.sh
+[2021ict84@fedora ~]$ ./astro.sh
 Enter your birth date
 23
 Can get help
@@ -85,7 +85,7 @@ for x in 1 2 3 4 5
 echo "Summation: " $sum
 echo "multiplication: " $product
 
-[2021ict37@fedora ~]$ ./forloop.sh
+[2021ict84@fedora ~]$ ./forloop.sh
 Summation:  15
 multiplication:  120
 
@@ -105,7 +105,7 @@ while [ $count -le 10 ]
 
 
 
-[2021ict37@fedora ~]$ ./whileloop.sh
+[2021ict84@fedora ~]$ ./whileloop.sh
 1
 2
 3
