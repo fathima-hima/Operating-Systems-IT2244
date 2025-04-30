@@ -1,1 +1,172 @@
-# Operating-Systems-IT2244
+Operating Systems IT 2244 Day 03 Practical 21/03/2025
+
+1.Practical No:07
+
+2.Implementation:
+
+1)Create a tab separeted file 
+-----------------------------
+example:
+vi ghi.tsv
+output:
+{ Desktop }  » vi ghi.tsv                                                                                                          
+{ Desktop }  » more ghi.tsv                                                                                                         
+aa      45      34      56      67
+bb      34      45      12      78
+cc      78      52      87      99
+dd      56      78      90      100
+ee      34      12      13      14
+ff      78      76      77      97
+gg      31      32      33      34
+hh      22      36      78      90
+ii      78      77      88      90
+jj      45      78      100     34
+
+
+2)Extact first column from a tab seperated file
+-----------------------------------------------
+example:
+cut -d $'\t' -f1 ghi.tsv
+output:
+{ Desktop }  » cut -d $'\t' -f1 ghi.tsv                                                                                          
+aa
+bb
+cc
+dd
+ee
+ff
+gg
+hh
+ii
+jj
+
+Explain the syntax:
+cut 	 -> A command used to extract sections of a file.
+-d $'\t' -> Sets the delimiter to a tab (\t).
+$'\t' 	 ->is Bash syntax for representing a tab character.
+-f1      -> Selects the first field (column).
+ghi.tsv  -> The input file (a TSV file).
+
+
+3)Extract the data using awk command
+------------------------------------
+example:
+awk '{print}' ghi.tsv
+output:
+{ Desktop }  » awk '{print}' ghi.tsv                                                                                                
+aa      45      34      56      67
+bb      34      45      12      78
+cc      78      52      87      99
+dd      56      78      90      100
+ee      34      12      13      14
+ff      78      76      77      97
+gg      31      32      33      34
+hh      22      36      78      90
+ii      78      77      88      90
+jj      45      78      100     34
+
+Explain the syntax:
+awk 	  -> A text-processing tool that reads files line by line.
+'{print}' -> The default action in awk, which prints each line as it is.
+ghi.tsv   -> The input file.
+
+4)Extract the third column from tsv file using awk command
+----------------------------------------------------------
+example:
+awk '{print $3}' ghi.tsv
+output:
+{ Desktop }  » awk '{print $3}' ghi.tsv                                                                                         
+34
+45
+52
+78
+12
+76
+32
+36
+77
+78
+
+Explain the syntax:
+
+awk -> A powerful text-processing tool that processes files line by line.
+
+'{print $3}' ->The action performed by awk:
+
+	print -> Tells awk to print something.
+
+	$3 -> Refers to the third column (field) of each line.
+
+ghi.tsv -> The input file (in this case, a tab-separated values file).
+
+5)To print the number of columns in in the first row (Using Default Field Separator (Whitespace))
+----------------------------------------------------
+example:
+awk '{print NF;exit}' ghi.tsv
+output:
+{ Desktop }  » awk '{print NF;exit}' ghi.tsv                                                                                     
+5
+
+Explain the syntax:
+awk-> A tool to process text files line by line.
+'{print NF; exit}'->
+print NF -> Prints the number of columns (fields) in the current line.
+exit -> Stops after the first line is processed.
+ghi.tsv -> The input file being processed.
+
+6)To prints the number of columns in the first row of ghi.tsv and then stops.(Using Tab as Field Separator (For TSV Files)
+
+example:
+awk -F '\t' '{print NF; exit}' ghi.tsv
+output:
+{ Desktop }  » awk -F '\t' '{print NF; exit}' ghi.tsv                                                                            
+6
+
+Explain the syntax::
+-F '\t': Specifies the field separator (in this case, tab \t).
+{print NF; exit}:
+NF: Represents the number of fields (columns) in the current line.
+exit: Stops further processing after the first line is read.
+
+7)Get the Specific row from the input
+-------------------------------------
+
+get the 8th row
+
+example:
+head -n8 ghi.tsv | tail -n1
+output:
+{ Desktop }  » head -n8 ghi.tsv | tail -n1                                                                                      
+hh      22      36      78      90
+
+Explain the syntax:
+head -n8 ghi.tsv: Shows the first 8 lines of ghi.tsv.
+| (pipe): Passes the first 8 lines to the next command.
+tail -n1: From those 8 lines, it shows the 8th line.
+
+8)Count the number of lines with file name
+------------------------------------------
+
+exapmle:
+wc -l ghi.tsv
+output:
+{ Desktop }  » wc -l ghi.tsv                                                                                                      
+11 ghi.tsv
+
+Explain the syntax:
+wc: Stands for word count, but it can also count lines, words, and characters.
+-l: Option to count the lines in the file.
+ghi.tsv: The input file you want to analyze.
+
+9)To get the row which have specific data
+-----------------------------------------
+example:
+head -n10 ghi.tsv | grep 'cc'
+output:
+{ Desktop }  » head -n10 ghi.tsv | grep 'cc'                                                                                      
+cc      78      52      87      99
+
+Explain the syntax:
+head -n 10 ghi.tsv: Shows the first 10 lines of ghi.tsv.
+| (pipe): Passes those 10 lines to the next command.
+grep 'cc': Filters and shows only the lines that contain 'cc'.
