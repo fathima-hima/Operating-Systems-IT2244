@@ -89,7 +89,7 @@ done
 
 output:
 
-[2021ict84@fedora ~]$ ./multiplesOf3.sh
+[2021ict84@fedora ~]$ ./multable.sh
 3
 6
 9
