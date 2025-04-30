@@ -1,0 +1,198 @@
+Operating Systems IT 2244
+Day 09 Practical
+25/04/2025
+
+
+1)print multiplication table using for loop
+command:
+read -p "Enter a number to get multiplication table:" num
+
+for i in {1..10}
+do
+    echo "$num x $i = $((num * i))"
+done
+
+output:
+[2021ict84@fedora ~]$ ./multiplicationtable.sh
+Enter a number to get multiplication table:5
+5 x 1 = 5
+5 x 2 = 10
+5 x 3 = 15
+5 x 4 = 20
+5 x 5 = 25
+5 x 6 = 30
+5 x 7 = 35
+5 x 8 = 40
+5 x 9 = 45
+5 x 10 = 50
+
+Explanation:
+Prompts the user to enter a number (num)
+Loops i from 1 to 10
+In each iteration: calculates and displays num × i
+Example (input = 5): prints 5 x 1 = 5 up to 5 x 10 = 50
+
+2)  *        
+   ***
+  *****
+ *******
+*********
+ *******
+  *****
+   ***
+    *
+
+   
+rows=5
+for((i=1;i<=rows;i++))
+    do
+    for((j=i;j<rows;j++))
+    do
+    echo -n " "
+    done
+    for((k=1;k<=((2*i-1));k++))
+    do
+    echo -n "*"
+    done
+    echo ""
+    done
+//for bottom part
+for((i=rows-1;i>=1;i--))
+do
+for((j=rows;j>i;j--))
+do
+echo -n " "
+done
+for((k=1;k<=((2*i-1));k++))
+do
+echo -n "*"
+done
+echo
+done
+
+output:
+
+[2021ict84@fedora ~]$ ./diamond.sh
+    *
+   ***
+  *****
+ *******
+*********
+ *******
+  *****
+   ***
+    *
+
+Explanation:
+rows=5
+Prints a diamond shape:
+First loop builds increasing pyramid (1 to 5)
+Second loop builds decreasing pyramid (4 to 1)
+Each line centers the stars with spaces and calculates number of * as 2*i - 1
+
+3)
+*****
+*   *
+*   *
+*   *
+*****
+command:
+read -p "enter how many number of starts should be at first line:" row
+for ((i=1; i<=$row; i++))
+do
+    for ((j=1; j<=$row; j++))
+    do
+        if (( i==1 || i==5 || j==1 || j==5 ))
+        then
+            echo -n "*"
+        else
+            echo -n " "
+        fi
+    done
+    echo
+done
+
+
+output:
+[2021ict84@fedora ~]$ ./boxpattern.sh
+enter how many number of starts should be at first line: 5
+*****
+*   *
+*   *
+*   *
+*****
+
+Explanation:
+Creates a square/box pattern
+Stars only appear at the borders:
+i==1 or i==row (first/last row)
+j==1 or j==row (first/last column)
+Middle cells are spaces
+
+4)Fibonacci Series:
+0 1 1 2 3 5 8 13 21 34
+
+
+a=0;
+b=1;
+sum=0;
+for((i=1;i<=10;i++))
+do
+echo $a
+sum=$(($sum+$a))
+c=$(($a+$b))
+a=$b
+b=$c
+done
+echo "Sum:" $sum
+
+Output:
+
+[2021ict84@fedora ~]$ ./fibonaccisum.sh
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+Sum: 88
+
+Explanation:
+Prints the first 10 Fibonacci numbers
+Also maintains a sum variable to keep track of their total
+For first 10 Fibonacci numbers: 0 1 1 2 3 5 8 13 21 34
+Sum = 88
+
+5)sum of prime numbers between 1 and 100
+command:
+sum=0
+for (( i=1; i<=100; i++ )) 
+do
+  count=0
+  for (( j=1; j<=i; j++ )) 
+  do
+    if (( i % j == 0 )); then
+      count=$((count + 1))
+    fi
+  done
+  if (( count == 2 )); then 
+    sum=$((sum + i))
+  fi
+done
+echo "sum: $sum"
+
+
+output:
+[2021ict84@fedora ~]$ ./primesum.sh
+Sum: 1060
+
+Explanation:
+Checks each number i from 1 to 100
+A prime number has exactly 2 divisors (1 and itself)
+count == 2 means the number is prime
+Adds all prime numbers to sum
+Output: Sum = 1060
