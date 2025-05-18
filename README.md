@@ -1,1 +1,235 @@
-# Operating-Systems-IT2244
+Operating Systems IT 2244
+Day 11 Practical
+15/05/2025
+
+Question 01
+
+Using Command Prompt on a Windows system, write the exact commands to complete the
+following tasks:
+• Create New directories named CSC2244 , Marks and Exam on your Desktop.
+• Inside the CSC2244 directory, create three subdirectories named practical, theory, and exam
+papers.
+• Inside each subdirectories, create a text file, a Word document, and a PowerPoint document
+respectively:
+Eg:
+Practical →Word document, PowerPoint document, text file
+• Create two new excel files in desktop named Icae Marks and Final Exam Marks and move that files
+into the directory Marks
+• Copy the Directory Marks into the Exam directory and hide the Exam directory
+cd %USERPROFILE%\Desktop
+
+command:
+
+mkdir CSC2244 Marks Exam
+
+cd CSC2244
+mkdir practical theory "exam papers"
+
+cd practical
+echo. > practical.txt
+echo. > practical.docx
+echo. > practical.pptx
+cd ..
+
+cd theory
+echo. > theory.txt
+echo. > theory.docx
+echo. > theory.pptx
+cd ..
+
+cd "exam papers"
+echo. > exam_papers.txt
+echo. > exam_papers.docx
+echo. > exam_papers.pptx
+cd ..\..
+
+echo. > "Icae Marks.xlsx"
+echo. > "Final Exam Marks.xlsx"
+
+move "Icae Marks.xlsx" Marks\
+move "Final Exam Marks.xlsx" Marks\
+
+xcopy /E /I Marks Exam\Marks
+
+attrib +h Exam
+
+Explaination:
+
+ Step 1: Navigate to Desktop
+       %USERPROFILE% - refers to your our directory.
+       mkdir stands for Make Directory. This creates three folders named CSC2244, Marks, and Exam on the Desktop.
+
+Step 2: Create the main directories.
+      mkdir - stands for Make Directory. This creates three folders named CSC2244, Marks, and Exam on the Desktop.
+
+Step3: Create subdirectories inside CSC2244
+      First, navigate into the CSC2244 folder.
+      Then, create three subfolders: practical, theory, and exam papers. Quotes are used for folder names with spaces.
+      cd CSC2244
+      mkdir practical theory "exam papers"
+
+Step 4: Create files inside each subfolder
+      cd practical
+	echo. > practical.txt
+	echo. > practical.docx
+	echo. > practical.pptx
+      cd ..
+ 
+echo. - creates a blank file.
+> filename - redirects the output to a new file.
+This creates a .txt, .docx, and .pptx file in the folder.
+Similar steps are repeated for theory and exam papers directories.
+
+Step 5: Create Excel files on the Desktop
+
+echo. > "Icae Marks.xlsx"
+echo. > "Final Exam Marks.xlsx"
+
+Two empty Excel files are created directly on the Desktop using the same "echo." method.
+
+Step 6: Move Excel files into Marks directory
+
+move "Icae Marks.xlsx" Marks\
+move "Final Exam Marks.xlsx" Marks\
+
+move - command shifts the files from Desktop into the Marks folder.
+
+Step 7: Copy Marks folder into Exam
+
+xcopy /E /I Marks Exam\Marks
+
+xcopy is used for copying folders with subfolders and files.
+
+/E copies all subfolders, even if empty.
+
+/I treats destination as a directory.
+
+This makes a full copy of Marks inside the Exam directory.
+
+Step 8: Hide the Exam directory
+
+attrib +h Exam
+
+attrib +h adds the Hidden attribute.
+This hides the Exam folder from normal view in File Explorer (unless "Show hidden files" is enabled).
+
+===========================================================================================
+
+Question 02
+
+Using the data.csv file in your shared drive Do the Questions Given Below.
+1. Filter the rows where the GPA greater than 3.5
+2. Calculate the average GPA of all Students.
+
+data.csv data
+
+Name,Age,Department,GPA
+John,22,Physicalscience,3.5
+Priya,21,Environmentscience,3.7
+Meera,22,IT,3.1
+Carol,23,Physicalscience,3.99
+David,21,IT,3.98
+Riya,22,Physicalscience,3.6
+Rahman,21,Environmentscience,3.7
+Rose,22,IT,2
+Anna,23,Physicalscience,3.78
+Riyas,21,IT,3.76
+
+Command:
+2.1
+awk -F',' '$4 > 3.5' data.csv
+
+Explanation:
+awk is a command-line tool used to process and analyze text files.
+-F',' tells awk to use a comma (,) as the field separator, since CSV files use commas.
+$4 refers to the 4th column, which is the GPA.
+' $4 > 3.5 ' means: print the entire row only if the GPA is greater than 3.5.
+
+Output:
+
+Priya,21,Environmentscience,3.7
+Carol,23,Physicalscience,3.99
+David,21,IT,3.98
+Riya,22,Physicalscience,3.6
+Rahman,21,Environmentscience,3.7
+Anna,23,Physicalscience,3.78
+Riyas,21,IT,3.76
+
+command:
+2.2
+awk -F',' 'NR>1 {sum += $4; count++} END {print "Average GPA =", sum/count}' data.csv
+
+Explanation:
+-F',': Again, uses comma as the field separator.
+NR > 1: Skips the first row, which is the header (Name,Age,Department,GPA).
+{sum += $4; count++}: For each row, it:
+Adds the GPA ($4) to sum.
+Increments the student count by 1.
+
+END {print "Average GPA =", sum/count}:
+After processing all rows, it calculates the average GPA by dividing total GPA by total number of students.
+Prints the final average GPA.
+
+Output:
+
+Average GPA = 3.538
+
+===========================================================================================
+
+Question 03
+
+1. Read two Strings from user String 1 and String 2
+2. Count the characters of each String and print the lengthy String as shown in the Expected output
+Expected output :
+Enter String_1
+Apple
+Enter String_2
+Banana
+Banana is larger than Apple
+
+command:
+
+read -p "Enter String_1: " str1
+read -p "Enter String_2: " str2
+
+len1=${#str1}
+len2=${#str2}
+
+if [ $len1 -gt $len2 ]; then
+    echo "$str1 is larger than $str2"
+elif [ $len2 -gt $len1 ]; then
+    echo "$str2 is larger than $str1"
+else
+    echo "$str1 and $str2 are equal in length"
+fi
+
+Explanation:
+
+read -p "Enter String_1: " str1
+Prompts the user to input the first string and stores it in variable str1.
+
+read -p "Enter String_2: " str2
+Prompts the user to input the second string and stores it in variable str2.
+
+len1=${#str1}
+#str1 gets the length of the first string.
+The value is stored in variable len1.
+
+len2=${#str2}
+len2 stores its length.
+
+if [ $len1 -gt $len2 ]: checks if str1 is longer.
+elif [ $len2 -gt $len1 ]: checks if str2 is longer.
+else: if both lengths are equal.
+
+Output:
+
+{ ~ }  » ./Q3.sh                                                                                ~
+Enter String_1: Apple
+Enter String_2: Banana
+Banana is larger than Apple
+
+
+
+
+
