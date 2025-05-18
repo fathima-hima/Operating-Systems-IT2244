@@ -1,0 +1,410 @@
+Operating Systems IT 2244
+Day 12 Practical
+16/05/2025
+
+1.Print Hello World using c language.
+
+code:
+#include<stdio.h>  // Input-output library
+
+int main(){
+   printf("Hello World!\n");  // Print message
+   return 0;  // Exit the program
+}
+
+Output:
+
+[2021ict84@fedora ~]$ gcc helloworld.c -o helloworld
+[2021ict84@fedora ~]$ ./helloworld
+Hello World!
+
+Explanation:
+
+gcc - Invokes the GCC compiler (used to compile C programs).
+helloworld.c -  it contains C code.
+-o helloworld - tells the compiler to create an output file named helloworld (the executable).
+
+./ - Refers to the current directory (the folder you're in).
+helloworld - The compiled executable file created from your C code.
+
+#include<stdio.h>
+This preprocessor directive tells the compiler to include the Standard Input Output library.
+This library provides functions like printf() and scanf().
+
+printf("Hello World!\n");
+printf() is used to display text on the screen.
+"Hello World!\n" is the message to print.
+\n means new line – the cursor moves to the next line after printing.
+
+===========================================================================================
+
+2.Printing Age (Initial Mistake)
+
+int main(){
+ int age = 24;
+ printf(age); //Incorrect: printf expects a format specifier
+ return 0;
+}
+
+Error Output:
+
+warning: passing argument 1 of ‘printf’ makes pointer from integer without a cast.
+
+Explanation:
+
+In this code, the printf() function is used incorrectly. The function printf() expects a format string as its first argument to specify how the output should be formatted.
+Here, age is an integer, not a format string.
+This causes the compiler to interpret age as a memory address (pointer), leading to a type mismatch warning.
+This does not print the actual value of age. 
+
+===========================================================================================
+
+3.Printing age
+
+#include <stdio.h>
+int main(){
+ int age = 24;
+ printf("%d", age);  // Correct way with format specifier
+ return 0;
+}
+Output:
+
+[2021ict84@fedora ~]$ ./age
+24
+
+Explanation:
+
+%d is a format specifier that tells printf to print an integer.
+age is passed as a second argument, which will be printed in place of %d.
+
+===========================================================================================
+
+4.Assign New Value to Same Variable
+
+#include <stdio.h>
+int main(){
+ int age = 24;
+ printf("%d\n", age);
+ printf("c programming language\n");
+ age = 26;
+ printf("\nNew age:%d", age);
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi age.c
+[2021ict84@fedora ~]$ gcc age.c -o age
+[2021ict84@fedora ~]$ ./age
+24
+c programming language
+
+New age:26
+
+Explanation:
+
+The program begins by including the standard input-output header file #include <stdio.h>, which allows the use of the printf() function. Inside the main() function, an integer variable named age is declared and initialized with the value 24.
+
+The first printf() statement displays the initial value of the variable age, which is 24, followed by a newline character to move the cursor to the next line.
+
+The next printf() statement prints the text "c programming language" and also moves the cursor to the next line.
+After this, the value of the variable age is updated from 24 to 26 using a simple assignment statement.
+Finally, another printf() statement is used to print the updated value of age, which is now 26. A newline character is added at the beginning of this line to ensure it appears neatly separated in the output.
+
+===========================================================================================
+
+5.Assign Same Value to Two Variables
+
+#include <stdio.h>
+int main(){
+ int firstnumber = 20;
+ printf("First number:%d", firstnumber);
+
+ int secondnumber = firstnumber;
+ printf("Second number:%d", secondnumber);
+
+ return 0;
+}
+Output:
+
+[2021ict84@fedora ~]$ vi second.c
+[2021ict84@fedora ~]$ gcc second.c -o second
+[2021ict84@fedora ~]$ ./second
+First number:20Second number:20
+
+Explanation:
+
+This program demonstrates how the value of one variable (firstnumber) can be assigned to another variable (secondnumber), allowing both variables to hold the same value.
+
+===========================================================================================
+
+6.Initialize Multiple Variables in One Line
+
+#include <stdio.h>
+int main(){
+ int firstnumber, secondnumber = 20;
+ printf("First number:%d\n", firstnumber);  // Uninitialized value (random output)
+ printf("Second number:%d\n", secondnumber);
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ ./second
+First number:1
+Second number:20
+
+Expalantion:
+
+This program shows how to declare multiple variables in a single line, but only secondnumber is initialized with the value 20, while firstnumber remains uninitialized, which can lead to unpredictable or garbage output when printed.
+
+===========================================================================================
+
+7.Data Types – Integer and Size
+
+#include <stdio.h>
+int main(){
+ int age = 10;
+ printf("%d\n", age);
+ printf("size: %zu\n", sizeof(age));  // Size in bytes
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi agesize.c
+[2021ict84@fedora ~]$ gcc agesize.c -o agesize
+[2021ict84@fedora ~]$ ./agesize
+10
+size: 4
+
+Explanation:
+
+This program demonstrates the use of the int data type by assigning the value 10 to the variable age, printing its value, and then using the sizeof operator to display the memory size (in bytes) that the integer variable occupies.
+
+===========================================================================================
+
+8.Print Double (2 decimal places)
+
+#include <stdio.h>
+int main(){
+ double number = 12.45;
+ printf("%.2lf\n", number);  // Print up to 2 decimal places
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ gcc third.c -o third
+[2021ict84@fedora ~]$ ./third
+12.45
+
+Explanation:
+
+This program demonstrates how to use the double data type and print its value with exactly two decimal places using the format specifier %.2lf in the printf() function.
+
+===========================================================================================
+
+9.Print Double (6 decimal places)
+
+#include <stdio.h>
+int main(){
+ double number = 12.45;
+ printf("%.6lf\n", number);  // Print up to 6 decimal places
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi third.c
+[2021ict84@fedora ~]$ gcc third.c -o third
+[2021ict84@fedora ~]$ ./third
+12.450000
+
+Explanation:
+
+This program uses the double data type to store a decimal number and prints it with six decimal places using the format specifier %.6lf, which ensures the output is displayed in a more precise format.
+
+===========================================================================================
+
+10.Print Double Without Decimals
+
+#include <stdio.h>
+int main(){
+ double number = 12.45;
+ printf("%.lf\n", number);  // Print as whole number
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi third.c
+[2021ict84@fedora ~]$ gcc third.c -o third
+[2021ict84@fedora ~]$ ./third
+12
+
+Explanation:
+
+This program stores a decimal number in a double variable and prints it without any decimal places by using the format specifier %.lf, which rounds and displays only the whole number part.
+
+===========================================================================================
+
+11.Print Floating Number
+
+#include <stdio.h>
+int main(){
+ float number1 = 10.9f;
+ printf("%f", number1);     // Default 6 decimals
+ printf("%.1f", number1);   // Only 1 decimal
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi third.c
+[2021ict84@fedora ~]$ gcc third.c -o third
+[2021ict84@fedora ~]$ ./third
+10.900000
+10.9
+
+
+Explanation:
+
+This program declares a float variable number1 with the value 10.9 and demonstrates printing it twice: first with the default six decimal places using %f, and then with only one decimal place using the format specifier %.1f.
+
+===========================================================================================
+
+12.Print Char Character and ASCII
+
+char character = 'z';
+printf("%c\n", character);  // prints character
+printf("%d\n", character);  // prints ASCII value
+
+Output:
+
+z
+122
+
+Explanation:
+
+This code declares a character variable character with the value 'z', then prints the character itself using %c, and afterwards prints its corresponding ASCII integer value using %d.
+
+===========================================================================================
+
+13.Input Integer from User
+
+#include <stdio.h>
+int main(){
+ int age;
+ printf("Enter your age:");
+ scanf("%d", &age);
+
+ printf("Age=%d\n", age);
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi user.c
+[2021ict84@fedora ~]$ gcc user.c -o user
+[2021ict84@fedora ~]$ ./user
+Enter your age:23
+Age=23
+
+Explanation:
+
+This program prompts the user to enter their age, reads the integer input using scanf(), stores it in the variable age, and then prints the entered age using printf().
+
+===========================================================================================
+
+14.Input Double and Char from User
+
+#include <stdio.h>
+int main(){
+ double number;
+ char alpha;
+
+ printf("Enter double input:");
+ scanf("%lf", &number);
+
+ printf("Your double input is:%lf\n", number);
+
+ printf("Enter char input:");
+ scanf(" %c", &alpha); // space before %c to ignore newline
+
+ printf("Your char input is: %c\n", alpha);
+ return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi user1.c
+[2021ict84@fedora ~]$ gcc user1.c -o user1
+[2021ict84@fedora ~]$ ./user1
+Enter double input:12.54
+Your double input is:12.540000
+Enter char input:a
+Your char input is: a
+
+Explanation:
+
+This program asks the user to input a double-precision floating-point number and a single character, reads these inputs using scanf()—with a space before %c to properly handle the newline character—and then prints both the entered double value and the character.
+
+===========================================================================================
+
+15.Create a calculator using c language.
+
+code:
+
+#include <stdio.h>
+int main(){
+    int num1,num2;
+	printf("Enter number 1:");
+	scanf("%d", &num1);
+	
+	printf("Enter number 2:");
+	scanf("%d", &num2);
+	
+	printf("Addition of number 1 and number 2 is:%d\n",num1+num2);
+	printf("Subtraction of number 1 and number 2 is:%d\n",num1-num2);
+	printf("multiplication of number 1 and number 2 is:%d\n",num1*num2);
+	printf("division of number 1 and number 2 is: %.2lf\n", (double)num1 / num2);
+	if(num2!=0)
+	{
+	printf("modulus of number 1 and number 2 is:%d\n",num1%num2);
+	}
+	else{
+		printf("Division and Modulus not allowed (number1 is zero).\n");
+	}
+	
+	
+	return 0;
+}
+
+output:
+
+[2021ict84@fedora ~]$ vi cal.c
+[2021ict84@fedora ~]$ gcc cal.c -o cal
+[2021ict84@fedora ~]$ ./cal
+Enter number 1:9
+Enter number 2:4
+Addition of number 1 and number 2 is:13
+Subtraction of number 1 and number 2 is:5
+multiplication of number 1 and number 2 is:36
+division of number 1 and number 2 is: 2.25
+modulus of number 1 and number 2 is:1
+
+Explanation:
+
+This C program performs basic arithmetic operations: addition, subtraction, multiplication, division, and modulus on two integers entered by the user.
+It starts by including the stdio.h library for input/output functions.
+Inside the main() function, two integer variables num1 and num2 are declared.
+The program prompts the user to enter two numbers, which are read using scanf().
+It then calculates and prints:
+The sum of the two numbers.
+The difference (num1 minus num2).
+The product of the two numbers.
+The quotient, printed as a double with 2 decimal places by casting num1 to double to ensure floating-point division.
+Before calculating modulus, the program checks if num2 is not zero to avoid division by zero errors.
+If num2 is zero, it prints a warning that division and modulus operations are not allowed.
+
