@@ -1,0 +1,797 @@
+Operating Systems IT 2244
+Day 13 Practical
+19/05/2025
+
+
+1.if else statement
+
+if(condition)
+{
+  //body of if statement
+}
+else{
+  //body of else statement
+}
+
+----------------------------------------------------------
+
+Ex1.: Enter your age and verify you are  eligible or not eligible for election voting.
+
+code:
+
+#include <stdio.h>
+int main(){
+
+  int age;
+  
+  printf("Enter your age:");
+  scanf("%d", &age);
+  
+  if(age>=18)
+  {
+   printf("You are eligible for voting");
+  }
+  else{
+   printf("You are not eligible for voting");
+  }
+ 
+ return 0;
+}
+
+output:
+
+[2021ict84@fedora ~]$ vi voting.c
+[2021ict84@fedora ~]$ gcc voting.c -o voting
+[2021ict84@fedora ~]$ ./voting
+Enter your age:23
+You are eligible for voting
+
+[2021ict84@fedora ~]$ ./voting
+Enter your age:15
+You are not eligible for voting
+
+Explanation:
+
+This C program checks if a user is eligible to vote:
+It uses an if-else statement to compare the entered age.
+If the age is 18 or more, it prints: "You are eligible for voting".
+Otherwise, it prints: "You are not eligible for voting".
+
+===========================================================================================
+
+2.ternary operator
+
+test_condition ? expression1 : expression2;
+
+------------------------------------------------------------------
+
+Ex2: Enter your age and verify you are  eligible or not eligible for election voting using ternary operator.
+
+code:
+
+#include <stdio.h>
+int main(){
+
+  int age;
+  
+  printf("Enter your age:");
+  scanf("%d", &age);
+  
+  (age>=18) ? printf("You are eligible for voting") : printf("You are not eligible for voting");
+  
+ return 0;
+}
+
+output:
+
+[2021ict84@fedora ~]$ vi voting.c
+[2021ict84@fedora ~]$ gcc voting.c -o voting
+[2021ict84@fedora ~]$ ./voting
+Enter your age:25
+You are eligible for voting
+
+Explanation:
+
+This c program uses the ternary operator to check voting eligibility.
+(age >= 18) ? ... : ... evaluates the condition.
+If true, it prints: "You are eligible for voting".
+If false, it prints: "You are not eligible for voting".
+The ternary operator is a compact alternative to if-else.
+
+===========================================================================================
+
+3.switch case
+
+switch(variable/expression)
+{
+  case 1:
+  //body of case
+   break;
+   
+    case 2:
+  //body of case
+   break;
+   
+    case 3:
+  //body of case
+   break;
+   
+    default:
+  //body of case
+   break;
+   }
+
+--------------------------------------------------------------------------------
+
+Ex3: Enter the value between 1 to 7 and create a program for the following output:
+
+Enter the number from 1 to 7 : 1
+Today is Sunday!
+
+
+code:
+
+#include <stdio.h>
+int main()
+{
+int num;
+printf("Enter the number from 1 to 7 :");
+
+scanf("%d", &num);
+
+switch(num)
+{
+   case 1:
+      printf("Today is Sunday");
+	  break;
+	  
+	  case 2:
+      printf("Today is Monday");
+	  break;
+	  
+	  case 3:
+      printf("Today is Tuesday");
+	  break;
+	  
+	  case 4:
+      printf("Today is Wednesday");
+	  break;
+	  
+	  case 5:
+      printf("Today is Thursday");
+	  break;
+	  
+	  case 6:
+      printf("Today is Friday");
+	  break;
+	  
+	  case 7:
+      printf("Today is Saturday");
+	  break;
+	  
+	 default:
+      printf("Invalid number!");
+	  break;
+	  
+}
+
+return 0;
+}
+
+Output :
+
+[2021ict84@fedora ~]$ vi switchc.c
+[2021ict84@fedora ~]$ gcc switchc.c -o switchc
+[2021ict84@fedora ~]$ ./switchc
+Enter the number from 1 to 7 :1
+Today is Sunday
+
+Explanation:
+
+The switch is a clean way to handle multiple conditions based on a single variable.
+This  c program uses a switch statement to display the day of the week based on a number (1–7).
+The user enters a number.
+switch(num) checks the value:
+case 1: → prints Sunday
+case 2: → prints Monday, and so on.
+If the number is not between 1–7, default: prints "Invalid number!"
+
+===========================================================================================
+
+Ex4 : Write a code for small astrology based on your life path number for that get date of birth
+from user then calculate the life path number.(use switch case)
+ 
+   Date : 23
+  
+    calculation for life path number:
+                  a=date%10
+		  b=date/10
+		  c=a+b 
+	if life path number:
+	     1:Lucky
+		 2:Carefuly do your work
+		 3:Stronger
+		 4:Happy
+		 5:Can get help
+		 6:doubt
+		 7:Sad
+		 8:Like
+		 9:Courage
+
+code :
+
+#include <stdio.h>
+int main()
+{
+   int date;
+   
+   printf("Enter the date you were born on: ");
+   scanf("%d", &date);
+   
+   int a = date%10;
+   int b = date/10;
+   int c = a+b;
+   switch(c)
+   {
+      case 1:
+	  printf("Lucky");
+	  break;
+	  
+	  case 2:
+	  printf("Carefully do your work");
+	  break;
+	  
+	  case 3:
+	  printf("Stronger");
+	  break;
+	  
+	  case 4:
+	  printf("Happy");
+	  break;
+	  
+	  case 5:
+	  printf("Can get help");
+	  break;
+	  
+	  case 6:
+	  printf("Doubt");
+	  break;
+	  
+	  case 7:
+	  printf("Sad");
+	  break;
+	  
+	  case 8:
+	  printf("Like");
+	  break;
+	  
+	  case 9:
+	  printf("Courage");
+	  break;
+	  
+	  default:
+	  printf("Invalid");
+	  break;
+   }
+   return 0;
+}
+
+output:
+
+[2021ict84@fedora ~]$ vi astroc.c
+[2021ict84@fedora ~]$ gcc astroc.c -o astroc
+[2021ict84@fedora ~]$ ./astroc
+Enter your date of birth: 23
+Can get help
+
+Explanation:
+
+Uses basic math and switch-case to show a life path-based message.
+This c program gives a small astrology prediction based on your life path number.
+The user enters their birth date (e.g., 23).
+It calculates the life path number as:
+a = date % 10 → gets last digit (3)
+b = date / 10 → gets first digit (2)
+c = a + b → 2 + 3 = 5
+A switch checks the value of c and displays a matching message.
+
+===========================================================================================
+
+4.for loop
+Ex5: Give list of numbers to calculate the summation and multiplication using for loop.
+
+Example 
+    1 2 3 4 5
+	
+	Summation = 15
+	Multiplicatipon = 120
+
+
+code:
+
+#include<stdio.h>
+int main(){
+  
+  int sum = 0, mul = 1, num;
+  
+  printf("Enter a number :\n");
+  scanf("%d", &num); 
+  
+  for(int i = 1; i <= num; i++)
+  {
+    sum += i;
+    mul *= i;
+  }
+  
+  printf("Summation = %d\n", sum);
+  printf("Multiplication = %d\n", mul);
+  
+  return 0;
+}
+
+Output:
+
+Summation = 15
+Multiplication = 120
+
+Explanation:
+
+This c program calculates the sum and product of numbers from 1 to n using a for loop.
+sum += i adds numbers from 1 to n.
+mul *= i multiplies numbers from 1 to n.
+Example (n = 5):
+Summation = 1+2+3+4+5 = 15
+Multiplication = 1×2×3×4×5 = 120
+
+===========================================================================================
+
+5.while loop
+
+Ex6: print the integers from 1 to 10 using while loop.
+
+code:
+#include <stdio.h>
+
+int main() {
+    int i = 1;
+    while (i <= 10) {
+        printf("%d\n", i);
+        i++;
+    }
+    return 0;
+}
+
+output :
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+Explanation :
+
+1.Initialization:
+int i = 1;
+We declare an integer variable i and initialize it to 1. This variable will keep track of the current number to print.
+
+2.While loop condition:
+while (i <= 10)
+This loop will keep running as long as i is less than or equal to 10. So, it will run for i values 1, 2, ..., up to 10.
+
+3.Print statement:
+printf("%d\n", i);
+This prints the current value of i followed by a newline, so each number appears on its own line.
+
+4.Increment:
+i++;
+After printing, i is increased by 1 to move to the next number.
+
+5.Loop repeats:
+The program goes back to the while condition and checks if i is still less than or equal to 10. If yes,
+it repeats printing and incrementing. If no, it exits the loop.
+
+6.Program ends:
+return 0;
+This ends the main function and indicates that the program finished successfully.
+
+===========================================================================================
+
+Ex7: Write a c program to generate and print the Fibonacci series up to a specified
+number of terms. The program should take the number of terms as input from the 
+user and then display the corresponding fibonacci sequence.
+
+code:
+
+#include <stdio.h>
+
+void fibonacci(int n) {
+
+    long long a = 0, b = 1, c;
+
+    if (n >= 1) {
+        printf("%lld ", a);
+    }
+    if (n >= 2) {
+        printf("%lld ", b);
+    }
+
+    
+    for (int i = 3; i <= n; i++) {
+        c = a + b;
+        printf("%lld ", c);
+        a = b;
+        b = c;
+    }
+    printf("\n");
+}
+
+int main() {
+    int num;
+
+    printf("Enter the number of terms: ");
+    scanf("%d", &num);
+
+    if (num <= 0) {
+        printf("Please enter a positive integer.\n");
+    } else {
+        printf("Fibonacci Series up to %d terms: ", num);
+        fibonacci(num);
+    }
+
+    return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ vi fibc.c
+[2021ict84@fedora ~]$ gcc fibc.c -o fibc
+[2021ict84@fedora ~]$ ./fibc
+Enter the number of terms: 10
+Fibonacci Series up to 10 terms: 0 1 1 2 3 5 8 13 21 34
+
+Explanation:
+
+Uses a loop to add previous two numbers to generate the next term.
+
+This c program generates the Fibonacci series up to a given number of terms.
+Starts with a = 0, b = 1
+Prints first two terms directly.
+Then uses a for loop to calculate next terms as c = a + b
+Updates a and b each time to move forward in the series.
+
+===========================================================================================
+
+Ex8: Write a c program to calculate the factorial of a given non-negative integer.
+
+code:
+
+#include <stdio.h>
+
+int main() {
+    int num;
+    unsigned long long factorial = 1;
+
+    printf("Enter a positive integer: ");
+    scanf("%d", &num);
+
+    if (num < 0)
+        printf("Factorial is not defined for negative numbers.\n");
+    else {
+        for (int i = 1; i <= num; ++i) {
+            factorial *= i;
+        }
+        printf("Factorial of %d = %llu\n", num, factorial);
+    }
+
+    return 0;
+}
+
+output:
+
+[2021ict84@fedora ~]$ vi factc.c
+[2021ict84@fedora ~]$ gcc factc.c -o factc
+[2021ict84@fedora ~]$ ./factc
+Enter a positive integer: 5
+Factorial of 5 = 120
+
+Explanation:
+
+1.User Input:
+Reads a non-negative integer from the user.
+
+2.Validation:
+If input is negative, displays an error message.
+
+3.Factorial Calculation:
+Uses a for loop from 1 to num:
+
+4.Multiplies factorial by each i → factorial *= i
+
+5.Output:
+Prints the final factorial value.
+
+factorial is declared as unsigned long long to store very large values.
+%llu in printf - ensures correct and safe printing of that large number.
+
+When the user enter a positive  number the program calculates the factorial of that number.
+
+===========================================================================================
+
+
+Ex9: Write a c program that :
+Accepts two strings as input from the user.
+Concatenates the two strings displays the concatenated result.
+
+Code:
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[100], str2[100], result[200];
+
+    printf("Enter the first string: ");
+    fgets(str1, sizeof(str1), stdin);
+    
+    str1[strcspn(str1, "\n")] = '\0';
+
+    printf("Enter the second string: ");
+    fgets(str2, sizeof(str2), stdin);
+
+    str2[strcspn(str2, "\n")] = '\0';
+
+    strcpy(result, str1);
+    strcat(result, str2);
+
+    printf("Concatenated string: %s\n", result);
+
+    return 0;
+}
+
+
+
+Output:
+
+Enter the first string: Hello
+Enter the second string: World
+Concatenated string: HelloWorld
+
+
+Explanation:
+
+1.Input Strings:
+fgets() reads str1 and str2 from the user, including the newline \n.
+
+2.Remove Newline:
+strcspn(str1, "\n") finds the position of \n.
+str1[pos] = '\0' removes the newline from the string.
+Same is done for str2.
+
+3.Concatenation:
+strcpy(result, str1) copies the first string into result.
+strcat(result, str2) appends the second string to result.
+
+4.Output:
+Displays the final combined string using printf().
+
+fgets() – safely reads string input.
+strcpy() – copies one string to another.
+strcat() – appends one string to another.
+strcspn() – finds newline to remove it properly.
+
+===========================================================================================
+ 
+Ex10: Write a c program that takes a binary number (as an integer)
+ as input and converts it to its decimal equivalent.
+
+Code:
+
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    long long binary;
+    int decimal = 0, i = 0, digit;
+
+    printf("Enter a binary number: ");
+    scanf("%lld", &binary);
+
+    while (binary != 0) {
+        digit = binary % 10;
+        if (digit != 0 && digit != 1) {
+            printf("Invalid binary number.\n");
+            return 1;
+        }
+        decimal += digit * pow(2, i);
+        binary /= 10;
+        i++;
+    }
+
+    printf("Decimal equivalent: %d\n", decimal);
+
+    return 0;
+}
+
+
+
+Output:
+
+Enter a binary number: 1011
+Decimal equivalent: 11
+
+Explanation:
+
+1.Input:
+The user is prompted to enter a binary number (e.g., 1011).
+It's stored in a long long variable (binary) to allow larger binary inputs.
+
+2.Initialization:
+decimal = 0: to store the final result.
+i = 0: to represent the power of 2 (bit position).
+
+3.While Loop (Conversion Logic):
+Loop runs until binary becomes 0.
+digit = binary % 10: extracts the last digit (0 or 1).
+Validation: If the digit is not 0 or 1 → invalid input.
+decimal += digit * pow(2, i): converts the binary digit to decimal using its position.
+binary /= 10: removes the last digit.
+i++: moves to the next bit position (left to right).
+
+4.Output:
+Prints the decimal equivalent of the binary input.
+
+scanf("%lld", &binary) – reads a long long integer.
+pow(2, i) – calculates powers of 2.
+% and / – extract and remove digits from the binary number.
+
+===========================================================================================
+
+Ex11: 
+
+Write a C program that:
+Accepts an array of integers from the user.
+Finds and displays the maximum and minimum values in the array.
+
+Code:
+
+#include <stdio.h>
+
+int main() {
+    int arr[100], n, i;
+    int max, min;
+
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    printf("Enter %d integers:\n", n);
+    for(i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+        max = min = arr[0];
+
+    for(i = 1; i < n; i++) {
+        if(arr[i] > max)
+            max = arr[i];
+        if(arr[i] < min)
+            min = arr[i];
+    }
+
+    printf("Maximum value: %d\n", max);
+    printf("Minimum value: %d\n", min);
+
+    return 0;
+}
+
+Output:
+
+Enter the number of elements in the array: 5
+Enter 5 integers:
+12 4 56 7 23
+Maximum value: 56
+Minimum value: 4
+
+Explanation:
+
+1.Input:
+User enters how many numbers and the array elements.
+
+2.Initialization:
+First element is used to set starting max and min.
+
+3.Loop:
+Compares each element to update max or min.
+
+4.Result:
+Prints the largest and smallest values found.
+
+===========================================================================================
+
+Ex12: 
+Write c program to generate pascal's triangle.
+
+Output:
+no of rows =5
+          1
+        1   1
+      1   2   1
+    1   3   3   1
+  1   4   6   4   1
+
+Code:
+
+#include <stdio.h>
+
+// Function to calculate factorial
+int factorial(int n) {
+    int fact = 1;
+    for (int i = 2; i <= n; i++)
+        fact *= i;
+    return fact;
+}
+
+// Function to calculate binomial coefficient
+int binomialCoeff(int n, int k) {
+    return factorial(n) / (factorial(k) * factorial(n - k));
+}
+
+int main() {
+    int rows;
+
+    // Input number of rows
+    printf("Enter number of rows: ");
+    scanf("%d", &rows);
+
+    printf("\n");
+
+    // Generate Pascal's Triangle
+    for (int i = 0; i < rows; i++) {
+        // Print spaces for formatting
+        for (int space = 0; space < rows - i - 1; space++)
+            printf("  ");
+
+        // Print numbers in the row
+        for (int j = 0; j <= i; j++) {
+            printf("%4d", binomialCoeff(i, j));
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+Output:
+
+Enter number of rows: 5
+
+        1
+      1   1
+    1   2   1
+  1   3   3   1
+1   4   6   4   1
+
+Explanation:
+
+1.User Input:
+scanf() reads the number of rows to print.
+
+2.Outer Loop (i):
+Controls each row of Pascal’s Triangle.
+
+3.Inner Loop 1 (Spaces):
+Prints spaces to align numbers in triangle shape.
+
+4.Inner Loop 2 (j):
+Calculates and prints binomial coefficients C(i, j) using binomialCoeff().
+
+5.binomialCoeff():
+Uses the factorial() function to compute values for the triangle.
+
+6.Output:
+Each line represents one row of Pascal’s Triangle.
