@@ -1,1 +1,241 @@
+Operating Systems IT 2244
+Day 16 Practical
+23/05/2025
 
+1.Write a C program using fork() system call to perform the following tasks:
+Ask three integers A, B, and C from the user globally.
+Use a child process to:
+Calculate and display the factorial of A.
+Use another child process to:
+Generate and display the Fibonacci series of B terms.
+Check whether C is a prime number and display the result.
+The parent process should display its own process ID and parent process ID.
+
+Code :
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdbool.h>
+
+int A, B, C;
+
+void getInput() {
+    printf("Enter value for A: ");
+    scanf("%d", &A);
+
+    printf("Enter value for B: ");
+    scanf("%d", &B);
+
+    printf("Enter value for C: ");
+    scanf("%d", &C);
+}
+
+void getFactorial() {
+    int factorial = 1;
+    for (int i = 1; i <= A; i++) {
+        factorial *= i;
+    }
+    printf("Factorial of %d is %d\n", A, factorial);
+}
+
+void findFibonacci() {
+    int a = 0, b = 1, next;
+    printf("Fibonacci series of %d terms:\n", B);
+
+    for (int i = 0; i < B; i++) {
+        if (i == 0) {
+            next = a;
+        } else if (i == 1) {
+            next = b;
+        } else {
+            next = a + b;
+            a = b;
+            b = next;
+        }
+        printf("%d ", next);
+    }
+    printf("\n");
+}
+
+bool is_prime(int n) {
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int main() {
+    getInput();
+
+    int f = fork();
+    if (f == 0) {
+        printf("I am child\n");
+        printf("My parent ID is %d\n", getppid());
+        getFactorial();
+    } else {
+        int f2 = fork();
+        if (f2 == 0) {
+            findFibonacci();
+            if (is_prime(C)) {
+                printf("%d is a prime number.\n", C);
+            } else {
+                printf("%d is not a prime number.\n", C);
+            }
+        } else {
+            printf("I am parent\n");
+            printf("My ID is %d\n", getpid());
+            printf("My parent ID is %d\n", getppid());
+        }
+    }
+
+    return 0;
+}
+
+Output :
+
+[2021ict84@fedora ~]$ vi input3.c
+[2021ict84@fedora ~]$ gcc input3.c -o input3
+[2021ict84@fedora ~]$ ./input3
+Enter value for A: 5
+Enter value for B: 7
+Enter value for C: 11
+
+I am child
+My parent ID is 1234
+Factorial of 5 is 120
+Fibonacci series of 7 terms:
+0 1 1 2 3 5 8
+11 is a prime number.
+I am parent
+My ID is 1234
+My parent ID is 4321
+
+
+Explanation :
+
+Takes 3 inputs:
+A for factorial
+B for Fibonacci terms
+C to check if it's prime
+
+Uses fork() twice to create:
+One child process to compute factorial of A
+Another child process to compute Fibonacci series of B terms and check if C is prime
+The original (parent) process prints its ID and parent ID.
+
+In this c program,
+Child process prints factorial
+Another child prints Fibonacci + prime check
+Parent prints its own ID info
+
+===========================================================================================
+
+2.Multi-Process Computation Using fork() in C.
+Ask the user to enter a number n.
+Child 1: Calculates factorial of n.
+Child 5 (child of Child1): Computes the nth Fibonacci number.
+Child 2: Calculates 2 to the power of n.
+Child 3: Calculates the square of n.
+
+Code :
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main() {
+    int n;
+    printf("Enter number: ");
+    scanf("%d", &n);  // Use &n to store the value at the address of n
+
+    int child1 = fork();  // First fork
+
+    if (child1 == 0) {
+        // Child1 process
+        printf("Child1 -> PID: %d \t PPID: %d\n", getpid(), getppid());
+
+        // Factorial calculation
+        int fact = 1;
+        for (int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+        printf("Factorial of %d is %d\n", n, fact);
+
+        // Child of child1 - for Fibonacci
+        int child5 = fork();
+        if (child5 == 0) {
+            printf("Child5 -> PID: %d \t PPID: %d\n", getpid(), getppid());
+
+            int a = 0, b = 1, fib = 0;
+            for (int j = 1; j < n; j++) {
+                fib = a + b;
+                a = b;
+                b = fib;
+            }
+            printf("Fibonacci term at position %d is %d\n", n, (n == 0) ? 0 : (n == 1) ? 1 : fib);
+        } else {
+            wait(NULL);  // Wait for child5
+        }
+
+    } else {
+        // Parent process
+
+        int child2 = fork();  // Second fork
+        if (child2 == 0) {
+            printf("Child2 -> PID: %d \t PPID: %d\n", getpid(), getppid());
+
+            int s = 1;
+            for (int k = 0; k < n; k++) {
+                s *= 2;
+            }
+            printf("2 to the power of %d is %d\n", n, s);
+
+        } else {
+            int child3 = fork();  // Third fork
+            if (child3 == 0) {
+                printf("Child3 -> PID: %d \t PPID: %d\n", getpid(), getppid());
+                int square = n * n;
+                printf("Square of %d is %d\n", n, square);
+            } else {
+                // Parent waits for all its children
+                wait(NULL);
+                wait(NULL);
+            }
+        }
+    }
+
+    return 0;
+}
+
+Output :
+
+[2021ict84@fedora ~]$ vi input4.c
+[2021ict84@fedora ~]$ gcc input4.c -o input4
+[2021ict84@fedora ~]$ ./input4
+Enter number: 5
+Child1 -> PID: 12345 	 PPID: 12340
+Factorial of 5 is 120
+Child5 -> PID: 12346 	 PPID: 12345
+Fibonacci term at position 5 is 5
+Child2 -> PID: 12347 	 PPID: 12340
+2 to the power of 5 is 32
+Child3 -> PID: 12348 	 PPID: 12340
+Square of 5 is 25
+
+Explanation :
+
+The program first reads a number n from the user.
+It uses multiple fork() calls to create:
+Child1: Calculates factorial of n.
+Child5 (child of Child1): Computes the nth Fibonacci number.
+Child2: Calculates 2 to the power of n.
+Child3: Calculates the square of n.
+The parent process waits for its children to complete.
+Process IDs (PID) and parent process IDs (PPID) are printed for each child to show process relationships.
+
+#include <sys/types.h> → Defines types like pid_t used for process IDs (e.g., in fork()).
+#include <sys/wait.h> → Provides functions like wait() and waitpid() to let the parent process wait for child processes to finish.
