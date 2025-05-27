@@ -1,0 +1,247 @@
+Operating Systems IT 2244
+Day 14 Practical
+20/05/2025
+
+System call
+
+Code:
+
+#include<stdio.h>
+#include <unistd.h>
+int main(){
+
+printf("\nHello world");
+
+int f=fork();
+int p=getpid();
+
+printf("\n the pid is %d",p);
+printf("\n the pid is %d",f);
+
+return 0;
+}
+
+Output :
+
+Hello world                   //printf("\n the pid is %d",p);)
+ the pid is 11930Hello world
+ the pid is 11931
+
+
+[2021ict84@fedora ~]$ ./sys  // printf("\n the pid is %d",f);
+
+Hello world
+ the pid is 12097
+ the pid is 12098Hello world
+ the pid is 12098
+ the pid is 0
+ 
+Explanation: 
+
+This C program demonstrates the concept of process creation using fork() in Unix/Linux systems. 
+unistd.h is required for using the fork() and getpid() system calls.
+fork() is a system call that creates a new process (child).
+int f=fork();
+After this line, two processes exist:
+Parent process
+Child process
+
+Return value of fork():
+f = 0 in the child process.
+f > 0 in the parent process(it's the PID of the child)
+f < 0 if fork fails.
+
+printf("\n the pid is %d", p);
+printf("\n the pid is %d", f);
+These two lines will be executed by both the parent and the child.
+So, you will see 4 lines of output total (2 from parent, 2 from child), but the actual values differ.
+
+fork() is used to create a child process.
+getpid() gives the current process ID.
+After fork(), code runs twice: once in the parent, once in the child.
+Helps understand process duplication in Unix-like systems.
+
+===========================================================================================
+
+Print the parent and child only one time.
+
+Code:
+
+#include<stdio.h>
+#include <unistd.h>
+int main(){
+
+int f=fork();
+if(f==0){
+printf("I am the child id\n");
+}
+else {
+printf(" I am the parent id\n");
+}
+return 0;
+}
+
+Output:
+ 
+[2021ict84@fedora ~]$ ./sys
+I am the parent id
+I am the child id
+
+Explanation:
+
+If f == 0: This is the child process → prints "I am the child id".
+Else: This is the parent process → prints "I am the parent id".
+fork() splits the program into two.
+if(f == 0) ensures child prints once, else ensures parent prints once.
+
+===========================================================================================
+
+Code:
+
+#include<stdio.h>
+#include <unistd.h>
+int main(){
+
+int f=fork();
+if(f==0){
+printf("I am the child id\n");
+}
+else {
+printf(" I am the parent id\n");
+}
+printf("\nhello");
+return 0;
+}
+
+Output :
+
+[2021ict84@fedora ~]$ ./sys
+ I am the parent id
+
+helloI am the child id
+
+hello[2021ict84@fedora ~]$
+
+Explanation:
+
+ hello is printed 2 times because it typed after fork().
+
+===========================================================================================
+
+Code:
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    int f = fork();
+
+    if (f > 0) {
+        // Parent process
+        printf(" I am the parent a\n");
+
+        wait(NULL); // Wait for child to finish
+    }
+    else if (f == 0) {
+        // Child process
+        int f1 = fork();
+
+        if (f1 > 0) {
+            // Child process (before second fork)
+            printf("I am the child b\n");
+
+            wait(NULL); // Wait for grandchild
+        }
+        else if (f1 == 0) {
+            // Grandchild process
+            printf("I am the child c\n");
+        }
+    }
+
+    return 0;
+}
+
+Output:
+
+[2021ict84@fedora ~]$ ./sys
+I am the parent a
+I am the child b
+I am the child c
+
+Explanation :
+
+fork() once → parent and child.
+Inside child, fork again → child and grandchild.
+Each block prints once as desired:
+Parent prints " I am the parent a"
+Child prints "I am the child b"
+Grandchild prints "I am the child c"
+
+===========================================================================================
+
+Code :
+
+#include<stdio.h>
+#include <unistd.h>
+int main(){
+
+        int f=fork();
+
+        if(f==0)
+        {
+                printf("I am child\n");
+                printf("My parent ID %d\n",getppid());
+        }
+        else
+        {
+            int f1=fork();
+
+                        if(f1==0)
+                        {
+                                printf("I am sibling\n");
+                                printf("My parent ID %d\n",getppid());
+                        }
+                        else
+                        {
+                                printf("I am parent\n");
+                                printf("My ID %d\n",getpid());
+                                printf("My parent ID %d\n",getppid());
+                        }
+        }
+        return 0;
+}
+
+Output :
+
+[2021ict84@fedora ~]$ ./sys
+I am parent
+My ID 27187
+My parent ID 4481
+I am child
+My parent ID 27187
+I am sibling
+My parent ID 27187
+
+Explanation :
+
+This program demonstrates parent, child, and sibling process creation using fork().
+First fork: Creates a child process.
+if(f == 0) - Executes in the child:
+Prints "I am child" and its parent's PID using getppid().
+
+else {
+    int f1 = fork();
+In the original parent, a second fork creates a sibling (another child).
+
+if(f1 == 0)
+Executes in the sibling:
+Prints "I am sibling" and its parent's PID (same as the first child's parent).
+
+else 
+Executed by the parent only:
+Prints "I am parent", its own PID (getpid()), and its parent’s PID.
+
+All child and sibling processes have the same parent PID (original parent).
+
+
+
