@@ -1,0 +1,163 @@
+Operating Systems IT 2244
+Day 18 Practical
+30/05/2025
+
+Inter-Process Communication Using Message Queues in C.
+
+Code :
+
+//send
+
+#include <stdio.h>
+#include <sys/ipc.h>      // For IPC key generation
+#include <sys/msg.h>      // For message queue functions
+#define MAX 10            // Max size of message text
+
+//structure for message queue
+struct mesg_buffer{  //temporary storage box
+long mesg_type;
+char mesg_text[100];
+}message;
+
+int main()
+{
+	key_t key;
+	int msgid;
+
+	//ftok to generate unique key
+	key=ftok("send",921);
+
+	//msgget creates a message queue
+	//and returns identifier
+	msgid=msgget(key,0666|IPC_CREAT);
+	message.mesg_type=1;
+
+	printf("Write data: ");
+	fgets(message.mesg_text,MAX,stdin);
+
+	// msgsnd is to send message
+	msgsnd(msgid,&message,sizeof(message),0);
+	
+	//display message
+	printf("Data send is : %s \n",message.mesg_text);
+
+	return 0;
+}
+
+
+//recieve
+
+#include <stdio.h>
+#include <sys/ipc.h>      // For IPC key generation
+#include <sys/msg.h>     // For message queue functions
+ 
+ //structure for message queue
+ 
+struct mesg_buffer{  //temporary storage box
+long mesg_type;
+char mesg_text[100];
+}message;
+
+int main(){
+	key_t key;
+	int msgid;
+	
+	//ftok to generate unique key
+	key =ftok("send",921);
+
+	//msgget creates a message queue
+	//and returns identifier
+	msgid=msgget(key,0666 | IPC_CREAT);
+	
+	// msgrcv is to recieve message
+	msgrcv(msgid,&message,sizeof(message),1,0);
+	
+	//display message
+	printf("Data received is : %s \n",message.mesg_text);
+	
+	//to destroy the message queue
+	msgctl(msgid,IPC_RMID,NULL);
+	
+	return 0;
+	
+}
+
+Output :
+
+[2021ict84@fedora ~]$ vi send.c
+[2021ict84@fedora ~]$ gcc send.c -o send
+[2021ict84@fedora ~]$ vi rcv.c
+[2021ict84@fedora ~]$ gcc rcv.c -o rcv
+[2021ict84@fedora ~]$ ./send
+Write data: hi
+Data send is : hi
+[2021ict84@fedora ~]$ ./rcv
+Data received is : hi
+
+
+Explanation :
+
+Includes necessary headers for IPC message queue operations.
+MAX defines max characters to read for message.
+
+// Structure for message queue
+struct mesg_buffer {
+    long mesg_type;         // Message type, must be long
+    char mesg_text[100];    // Text data of message
+} message;
+
+Defines a structure for messages.
+mesg_type identifies the type (used for selective receiving).
+mesg_text holds the actual message content.
+You declared an instance named message.
+
+int main() {
+    key_t key;
+    int msgid;
+	
+Declare variables:
+key for unique IPC key.
+msgid for message queue identifier.
+
+key = ftok("send", 921);
+ftok creates a unique IPC key from the filename "send" and integer 921.
+Both sender and receiver must use the same key to access the same queue.
+The file "send" must exist in the working directory.
+
+// msgget creates a message queue or accesses an existing one
+// Permissions 0666 mean read/write for everyone
+msgid = msgget(key, 0666 | IPC_CREAT);
+msgget creates (or opens) a message queue identified by key.
+IPC_CREAT means create if it doesn't exist.
+0666 is permissions (rw-rw-rw-).
+
+message.mesg_type = 1;
+This sets the type of message to 1 (arbitrary number).
+ 
+printf("Write data: ");
+fgets(message.mesg_text, MAX, stdin);
+	
+Prompts user to enter data.
+Reads up to MAX (10) characters into message.mesg_text from standard input.
+fgets includes the newline character if input is shorter than MAX.
+
+ // Send the message to the queue
+msgsnd(msgid, &message, sizeof(message.mesg_text), 0);
+msgsnd sends the message to the queue identified by msgid.
+The second argument is the pointer to message.
+The third argument is the size of only the message text, not the entire struct.
+The last argument 0 means default blocking behavior.
+Note: Passing sizeof(message.mesg_text) is correct here; avoid passing full struct size.
+
+msgrcv: receives message from queue.
+3rd argument: size of message text.
+4th argument: message type to receive (1 matches sender).
+5th argument: 0 means default blocking receive.
+msgctl(..., IPC_RMID, NULL) removes the message queue when done.
+
+
+ftok() - Generates unique key based on a file and an ID
+msgget() - Creates or accesses message queue by key
+msgsnd() - Sends message (must specify message text size, not whole struct)
+msgrcv() - Receives message of given type
+msgctl(..., IPC_RMID, NULL) - Deletes message queue
