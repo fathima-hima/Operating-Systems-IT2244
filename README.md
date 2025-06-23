@@ -1,5 +1,5 @@
 Operating Systems IT 2244
-Day 24 Practical
+Day 23 Practical
 16/06/2025
 
 
